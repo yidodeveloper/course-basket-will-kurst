@@ -2,7 +2,7 @@ const grade = JSON.parse(sessionStorage.getItem('selectedGrade')) || "1";
 
 // List of lectures which user selected
 const pickedLectures = JSON.parse(sessionStorage.getItem('pickedLectures')) || [];
-const lecturesData = JSON.parse(sessionStorage.getItem('lecturesData')) || [];
+const lecturesData = JSON.parse(sessionStorage.getItem('lecturesData')) || []; // 전체 강의 데이터
 
 // Elements
 const safeTable = document.getElementById('tablesafe').getElementsByTagName('tbody')[0];
@@ -38,9 +38,19 @@ function createLectureRow(lecture) {
 // Find alternative lectures for a given lecture
 function findAlternativeLectures(lecture) {
     // Find all lectures with the same name but different number
-    const alternatives = lecturesData.filter(l => 
-        l.name === lecture.name && l.id !== lecture.id && !pickedLectures.some(pl => pl.id === l.id)
-    );
+    const alternatives = lecturesData.filter(l => {
+        // Only consider alternative lectures with a competition rate of less than 3
+        const allowed = Number(l[`allowed_${grade}`]);
+        const actual = Number(l[`actual_${grade}`]);
+        const competitionRate = allowed ? (actual / allowed) : 0;
+
+        return (
+            l.name === lecture.name &&  // Same subject
+            l.id !== lecture.id &&      // Different course ID
+            !pickedLectures.some(pl => pl.id === l.id) && // Not already picked
+            competitionRate < 3        // Competition rate should be less than 3
+        );
+    });
 
     return alternatives;
 }
@@ -48,6 +58,7 @@ function findAlternativeLectures(lecture) {
 // Render alternative lectures into the alternative table
 function renderAlternativeLectures() {
     alternativeTable.innerHTML = '';  // Clear the alternative table
+    let foundAlternatives = false;
 
     // Go through the picked lectures and check if they are danger level
     pickedLectures.forEach(lecture => {
@@ -59,12 +70,20 @@ function renderAlternativeLectures() {
         // If the competition rate is greater than or equal to 3, find alternatives
         if (competitionRate >= 3) {
             const alternatives = findAlternativeLectures(lecture);
-            alternatives.forEach(alternative => {
-                // Add alternative to the alternative table
-                alternativeTable.insertRow().innerHTML = createLectureRow(alternative);
-            });
+            if (alternatives.length > 0) {
+                foundAlternatives = true;
+                alternatives.forEach(alternative => {
+                    // Add alternative to the alternative table
+                    alternativeTable.insertRow().innerHTML = createLectureRow(alternative);
+                });
+            }
         }
     });
+
+    // If no alternatives found, add a message
+    if (!foundAlternatives) {
+        alternativeTable.insertRow().innerHTML = `<td colspan="3">대체 가능한 과목이 없습니다.</td>`;
+    }
 }
 
 // Filter and render lectures into the respective tables based on competition rate
