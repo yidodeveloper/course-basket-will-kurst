@@ -21,7 +21,7 @@ resource "aws_s3_object" "style_css" {
 
 resource "aws_s3_object" "script_js" {
   bucket       = aws_s3_bucket.main.id
-  key          = "app/source-code/js/script_js"
+  key          = "app/source-code/js/script.js"
   source       = "../source-code/js/script.js"
   content_type = "text/javascript"
 }
