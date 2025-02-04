@@ -47,17 +47,22 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
       working-directory: app/infra
+    
+    # Get which files are changed
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v44
 
     # If some HTML, CSS, JS, JSON files are modified, taint s3 object
     - name: Terraform Taint on File Change
       if: |
-        contains(github.event.pull_request.changed_files, 'app/source-code/html') ||
-        contains(github.event.pull_request.changed_files, 'app/source-code/css') ||
-        contains(github.event.pull_request.changed_files, 'app/source-code/js') ||
-        contains(github.event.pull_request.changed_files, 'app/data')
+        ${{ contains(steps.changed-files.outputs.modified_files, 'index.html') || 
+              contains(steps.changed-files.outputs.modified_files, 'home.html') || 
+              contains(steps.changed-files.outputs.modified_files, 'style.css') || 
+              contains(steps.changed-files.outputs.modified_files, 'script.js') || 
+              contains(steps.changed-files.outputs.modified_files, '24-2.json') }}
       run: |
-        # check each changed file to taint its s3 object
-        for file in ${{ github.event.pull_request.changed_files }}; do
+        for file in ${{ steps.changed-files.outputs.modified_files }}; do
           case "$file" in
             "app/source-code/html/index.html")
               terraform taint aws_s3_object.index_html
