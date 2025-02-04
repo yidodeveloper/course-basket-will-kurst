@@ -41,8 +41,8 @@ function findAlternativeLectures(lecture) {
         const competitionRate = calculateCompetitionRate(l);
         return (
             l.name === lecture.name &&  // Same subject
-            l.id !== lecture.id &&      // Different course ID
-            !pickedLectures.some(pl => pl.id === l.id) && // Not already picked
+            l.code !== lecture.code &&      // Different course code
+            !pickedLectures.some(pl => pl.code === l.code) && // Not already picked
             competitionRate < competitionRateThreshold        // Competition rate < 3
         );
     });
