@@ -11,6 +11,7 @@ const deptFilter = document.getElementById('dept-filter');
 const codeSearch = document.getElementById('code-search');
 const nameSearch = document.getElementById('name-search');
 const profSearch = document.getElementById('prof-search');
+const submitButton = document.getElementById("submitButton");
 
 // Check if data is available in sessionStorage
 let data = JSON.parse(sessionStorage.getItem('lecturesData'));
@@ -37,6 +38,7 @@ function initializePage(data) {
     setupEventListeners(data);
     filterLectures(data);
     renderPickedLectures(); // Render picked lectures from sessionStorage
+    updateSubmitButtonState();  // Update the button state based on picked lectures
 }
 
 // Populate department filter with unique values
@@ -110,6 +112,7 @@ function handlePickLecture(lecture, rowAll) {
 
         pickedLectures.push(lecture);
         sessionStorage.setItem('pickedLectures', JSON.stringify(pickedLectures)); // Save picked lectures to sessionStorage
+        updateSubmitButtonState();  // Update button state after adding a lecture
     }
 }
 
@@ -120,6 +123,7 @@ function handleRemoveLecture(rowPick, lecture) {
     if (index !== -1) {
         pickedLectures.splice(index, 1);
         sessionStorage.setItem('pickedLectures', JSON.stringify(pickedLectures)); // Update picked lectures in sessionStorage
+        updateSubmitButtonState();  // Update button state after removing a lecture
     }
 }
 
@@ -132,4 +136,13 @@ function renderPickedLectures() {
         removeBtn.innerText = '제거';
         removeBtn.addEventListener('click', () => handleRemoveLecture(rowPick, lecture));
     });
+}
+
+// Update the state of the submit button based on the number of picked lectures
+function updateSubmitButtonState() {
+    if (pickedLectures.length > 0) {
+        submitButton.disabled = false;  // Enable button
+    } else {
+        submitButton.disabled = true;   // Disable button
+    }
 }
