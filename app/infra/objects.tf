@@ -26,13 +26,6 @@ resource "aws_s3_object" "style_css" {
   content_type = "text/css"
 }
 
-resource "aws_s3_object" "login_js" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "app/source-code/js/login.js"
-  source       = "../source-code/js/login.js"
-  content_type = "text/javascript"
-}
-
 resource "aws_s3_object" "lecture_js" {
   bucket       = aws_s3_bucket.main.id
   key          = "app/source-code/js/lecture.js"
