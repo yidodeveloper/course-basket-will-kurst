@@ -116,7 +116,7 @@ function handlePickLecture(lecture, rowAll) {
 // Handle removing a picked lecture
 function handleRemoveLecture(rowPick, lecture) {
     rowPick.remove();
-    const index = pickedLectures.findIndex(pickedLecture => pickedLecture.name === lecture.name);
+    const index = pickedLectures.findIndex(pickedLecture => pickedLecture.code === lecture.code);
     if (index !== -1) {
         pickedLectures.splice(index, 1);
         sessionStorage.setItem('pickedLectures', JSON.stringify(pickedLectures)); // Update picked lectures in sessionStorage
