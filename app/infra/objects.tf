@@ -12,11 +12,25 @@ resource "aws_s3_object" "home_html" {
   content_type = "text/html"
 }
 
+resource "aws_s3_object" "result_html" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/source-code/html/result.html"
+  source       = "../source-code/html/result.html"
+  content_type = "text/html"
+}
+
 resource "aws_s3_object" "style_css" {
   bucket       = aws_s3_bucket.main.id
   key          = "app/source-code/css/style.css"
   source       = "../source-code/css/style.css"
   content_type = "text/css"
+}
+
+resource "aws_s3_object" "login_js" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/source-code/js/login.js"
+  source       = "../source-code/js/login.js"
+  content_type = "text/javascript"
 }
 
 resource "aws_s3_object" "lecture_js" {
@@ -26,10 +40,10 @@ resource "aws_s3_object" "lecture_js" {
   content_type = "text/javascript"
 }
 
-resource "aws_s3_object" "login_js" {
+resource "aws_s3_object" "calculator_js" {
   bucket       = aws_s3_bucket.main.id
-  key          = "app/source-code/js/login.js"
-  source       = "../source-code/js/login.js"
+  key          = "app/source-code/js/calculator.js"
+  source       = "../source-code/js/calculator.js"
   content_type = "text/javascript"
 }
 
