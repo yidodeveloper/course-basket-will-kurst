@@ -19,10 +19,10 @@ resource "aws_s3_object" "style_css" {
   content_type = "text/css"
 }
 
-resource "aws_s3_object" "script_js" {
+resource "aws_s3_object" "lecture_js" {
   bucket       = aws_s3_bucket.main.id
-  key          = "app/source-code/js/script.js"
-  source       = "../source-code/js/script.js"
+  key          = "app/source-code/js/lecture.js"
+  source       = "../source-code/js/lecture.js"
   content_type = "text/javascript"
 }
 
