@@ -16,7 +16,7 @@ function createLectureRow(lecture) {
     const competitionRate = allowed ? (actual / allowed) : 0;  // Calculate competition rate
 
     // Convert the competition rate to a percentage
-    const competitionRatePercentage = (competitionRate * 100).toFixed(2);  // Keep it 2 decimal places
+    const competitionRatePercentage = competitionRate.toFixed(2);  // Keep it 2 decimal places
 
     let status = 'safe'; // Default to safe
     if (competitionRate >= 3) {
