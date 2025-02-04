@@ -3,6 +3,7 @@ const s3FileUrl = 'https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.
 
 // List into which picked lectures are inserted
 let pickedLectures = JSON.parse(sessionStorage.getItem('pickedLectures')) || [];
+let selectedGrade = sessionStorage.getItem('selectedGrade') || "";  // 세션 스토리지에서 학년 값 확인
 
 // Elements
 const pickTable = document.getElementById('tablepick').getElementsByTagName('tbody')[0];
@@ -12,6 +13,7 @@ const codeSearch = document.getElementById('code-search');
 const nameSearch = document.getElementById('name-search');
 const profSearch = document.getElementById('prof-search');
 const submitButton = document.getElementById("submitButton");
+const gradeSelect = document.getElementById("grade");
 
 // Check if data is available in sessionStorage
 let data = JSON.parse(sessionStorage.getItem('lecturesData'));
@@ -34,11 +36,16 @@ if (!data) {
 
 // Initialize page elements
 function initializePage(data) {
+    // Set the grade select value to the previously saved grade
+    if (selectedGrade) {
+        gradeSelect.value = selectedGrade;
+    }
+
     populateDeptFilter(data);
     setupEventListeners(data);
     filterLectures(data);
     renderPickedLectures(); // Render picked lectures from sessionStorage
-    updateSubmitButtonState();  // Update the button state based on picked lectures
+    updateSubmitButtonState();  // Update the button state based on picked lectures and grade
 }
 
 // Populate department filter with unique values
@@ -53,6 +60,7 @@ function setupEventListeners(data) {
     codeSearch.addEventListener('input', () => filterLectures(data));
     nameSearch.addEventListener('input', () => filterLectures(data));
     profSearch.addEventListener('input', () => filterLectures(data));
+    gradeSelect.addEventListener('change', () => updateSubmitButtonState());
 }
 
 // Filter lectures based on search criteria
@@ -138,11 +146,16 @@ function renderPickedLectures() {
     });
 }
 
-// Update the state of the submit button based on the number of picked lectures
+// Update the state of the submit button based on the number of picked lectures and grade
 function updateSubmitButtonState() {
-    if (pickedLectures.length > 0) {
-        submitButton.disabled = false;  // Enable button
+    selectedGrade = gradeSelect.value;
+    // Save the selected grade to sessionStorage
+    sessionStorage.setItem('selectedGrade', selectedGrade);
+
+    // Enable button if at least one lecture is picked and grade is selected
+    if (pickedLectures.length > 0 && selectedGrade) {
+        submitButton.disabled = false;
     } else {
-        submitButton.disabled = true;   // Disable button
+        submitButton.disabled = true;
     }
 }

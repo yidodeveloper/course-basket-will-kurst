@@ -1,4 +1,4 @@
-const grade = JSON.parse(sessionStorage.getItem('grade')) || "1";
+const grade = JSON.parse(sessionStorage.getItem('selectedGrade')) || "1";
 
 // List of lectures which user selected
 const pickedLectures = JSON.parse(sessionStorage.getItem('pickedLectures')) || [];
@@ -58,8 +58,10 @@ function createLectureRow(lecture) {
 }
 
 // Initialize page rendering
-window.onload = function() {
+const initializePage = () => {
     renderSafeLectures(pickedLectures);  // Safe lectures
     renderWarningLectures(pickedLectures);  // Warning lectures
     renderDangerLectures(pickedLectures);  // Danger lectures
 }
+
+initializePage();
