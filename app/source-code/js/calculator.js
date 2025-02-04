@@ -29,7 +29,7 @@ function createLectureRow(lecture) {
     return `
         <td>${lecture.name}</td>
         <td>${lecture.time}</td>
-        <td class="${status}">${competitionRatePercentage}%</td>
+        <td class="${status}">${competitionRatePercentage}</td>
     `;
 }
 
