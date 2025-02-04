@@ -97,7 +97,7 @@ function createLectureRow(lecture) {
 
 // Handle picking a lecture
 function handlePickLecture(lecture, rowAll) {
-    const isDuplicated = pickedLectures.some(pickedLecture => pickedLecture.name === lecture.name);
+    const isDuplicated = pickedLectures.some(pickedLecture => pickedLecture.code === lecture.code);
 
     if (isDuplicated) {
         alert('이 강의는 이미 담았습니다!');
