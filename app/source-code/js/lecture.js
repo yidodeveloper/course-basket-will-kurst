@@ -76,7 +76,8 @@ const filterLectures = (allLectures) => {
         );
     });
 
-    renderLectures(filteredLectures);
+    // Render filtered lectures into the all lectures table
+    renderLectures(filteredLectures, allLecturesTable);
 }
 
 // Render lectures into the table (shared by all and picked lectures)
