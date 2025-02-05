@@ -1,55 +1,57 @@
-const grade = JSON.parse(sessionStorage.getItem('selectedGrade')) || "1";
-
+// List of every lecture
+let allLectures = JSON.parse(sessionStorage.getItem("allLectures")) || [];
 // List of lectures which user selected
-const pickedLectures = JSON.parse(sessionStorage.getItem('pickedLectures')) || [];
-const lecturesData = JSON.parse(sessionStorage.getItem('lecturesData')) || [];
+let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+const grade = JSON.parse(sessionStorage.getItem("grade")) || "1";
 
 // Elements
 const tables = {
-    safe: document.getElementById('tablesafe').getElementsByTagName('tbody')[0],
-    warning: document.getElementById('tablewarning').getElementsByTagName('tbody')[0],
-    danger: document.getElementById('tabledanger').getElementsByTagName('tbody')[0],
-    alternative: document.getElementById('tablealternative').getElementsByTagName('tbody')[0],
+    safe: document.getElementById("safe-lectures").getElementsByTagName("tbody")[0],
+    warning: document.getElementById("warning-lectures").getElementsByTagName("tbody")[0],
+    danger: document.getElementById("danger-lectures").getElementsByTagName("tbody")[0],
+    alternative: document.getElementById("alternative-lectures").getElementsByTagName("tbody")[0],
 };
 
-// Helper function to calculate competition rate
-function calculateCompetitionRate(lecture) {
-    const allowed = Number(lecture[`allowed_${grade}`]);
-    const actual = Number(lecture[`actual_${grade}`]);
-    return allowed ? (actual / allowed) : 0;
+// Helper function to calculate a competition rate
+const calculateCompetitionRate = (lecture) => {
+    const numberOfPeopleAllowed = Number(lecture[`allowed_${grade}`]);
+    const numberOfApplicants = Number(lecture[`actual_${grade}`]);
+    return numberOfPeopleAllowed ? (numberOfApplicants / numberOfPeopleAllowed).toFixed(2) : 0;
 }
 
-// Create the HTML row for a lecture with competition rate
-function createLectureRow(lecture, competitionRate) {
-    const competitionRatePercentage = competitionRate.toFixed(2);  // Keep it 2 decimal places
-    let status = 'safe';  // Default to safe
+// Create the HTML row for a lecture with the competition rate
+const createLectureRow = (lecture, competitionRate) => {
+    let status = "safe"; // Default to safe
 
-    if (competitionRate >= 3) status = 'danger';  // Danger
-    else if (competitionRate > 1) status = 'warning';  // Warning
+    if (competitionRate >= 3) {
+        status = "danger"
+    } else if (competitionRate > 1) {
+        status = "warning"
+    }
 
     return `
         <td>${lecture.name}</td>
         <td>${lecture.time}</td>
-        <td class="${status}">${competitionRatePercentage}</td>
+        <td class="${status}">${competitionRate}</td>
     `;
 }
 
-// Find alternative lectures for a given lecture with competition rate less than 3
-function findAlternativeLectures(lecture) {
+// Find alternative lectures for a given lecture with the competition rate less than 3
+const findAlternativeLectures = (lecture) => {
     const competitionRateThreshold = 3;
-    return lecturesData.filter(l => {
+    return allLectures.filter(l => {
         const competitionRate = calculateCompetitionRate(l);
         return (
             l.name === lecture.name &&  // Same subject
-            l.code !== lecture.code &&      // Different course code
-            !pickedLectures.some(pl => pl.code === l.code) && // Not already picked
-            competitionRate < competitionRateThreshold        // Competition rate < 3
+            l.code !== lecture.code &&  // Different course code
+            !pickedLectures.some(pl => pl.code === l.code) &&  // Not already picked
+            competitionRate < competitionRateThreshold         // Competition rate < 3
         );
     });
 }
 
 // Render lectures into the specified table
-function renderLecturesForTable(lectures, tableElement) {
+const renderLecturesForTable = (lectures, tableElement) => {
     lectures.forEach(lecture => {
         const competitionRate = calculateCompetitionRate(lecture);
         tableElement.insertRow().innerHTML = createLectureRow(lecture, competitionRate);
@@ -57,8 +59,8 @@ function renderLecturesForTable(lectures, tableElement) {
 }
 
 // Render alternative lectures into the alternative table
-function renderAlternativeLectures() {
-    tables.alternative.innerHTML = '';  // Clear the alternative table
+const renderAlternativeLectures = () => {
+    tables.alternative.innerHTML = "";  // Clear the alternative table
     let foundAlternatives = false;
 
     pickedLectures.forEach(lecture => {
@@ -72,14 +74,14 @@ function renderAlternativeLectures() {
         }
     });
 
-    // If no alternatives found, add a message
+    // If no alternatives found, display a message
     if (!foundAlternatives) {
         tables.alternative.insertRow().innerHTML = `<td colspan="3">대체 가능한 과목이 없습니다.</td>`;
     }
 }
 
 // Categorize lectures into safe, warning, and danger based on competition rate
-function categorizeLectures() {
+const categorizeLectures = () => {
     const safeLectures = [];
     const warningLectures = [];
     const dangerLectures = [];
@@ -100,9 +102,9 @@ function categorizeLectures() {
 }
 
 // Render all lectures into their respective tables
-function renderLectures() {
+const renderLectures = () => {
     // Clear all tables
-    Object.values(tables).forEach(table => table.innerHTML = '');
+    Object.values(tables).forEach(table => table.innerHTML = "");
 
     const { safeLectures, warningLectures, dangerLectures } = categorizeLectures();
 
