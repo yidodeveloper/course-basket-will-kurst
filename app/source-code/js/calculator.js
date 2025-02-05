@@ -76,7 +76,7 @@ const renderAlternativeLectures = () => {
 
     // If no alternatives found, display a message
     if (!foundAlternatives) {
-        tables.alternative.insertRow().innerHTML = `<td colspan="3">대체 가능한 과목이 없습니다.</td>`;
+        tables.alternative.insertRow().innerHTML = `<td colspan="3">대체할 강의가 없습니다...</td>`;
     }
 }
 
