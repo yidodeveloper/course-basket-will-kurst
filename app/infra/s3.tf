@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "main" {
-  bucket = "course-basket-will-kurst"
+  bucket = var.s3_name
 
   tags = {
-    Name = "course-basket-will-kurst"
+    Name = var.s3_name
   }
 }
 
