@@ -1,5 +1,5 @@
 // URL of JSON file uploaded to S3
-const lecturesDataUrl = "https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/data/24-1.json";
+const lecturesDataUrl = "https://course-basket-will-kurst.com.s3.ap-northeast-2.amazonaws.com/app/data/24-1.json";
 
 // List of every lecture
 let allLectures = JSON.parse(sessionStorage.getItem("allLectures")) || [];
