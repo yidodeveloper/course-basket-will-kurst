@@ -1,5 +1,5 @@
 // URL of JSON file uploaded to S3
-const lecturesDataUrl = "https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/data/24-2.json";
+const lecturesDataUrl = "../data/24-2.json";
 
 // List of every lecture
 let allLectures = JSON.parse(sessionStorage.getItem("allLectures")) || [];
@@ -10,11 +10,12 @@ let grade = sessionStorage.getItem("grade") || "";
 // Elements
 const pickedLecturesTable = document.getElementById("picked-lectures").getElementsByTagName("tbody")[0];
 const allLecturesTable = document.getElementById("all-lectures").getElementsByTagName("tbody")[0];
+const clearAllBtn = document.getElementById("clear-all-btn");
 const deptFilter = document.getElementById("dept-filter");
 const codeSearch = document.getElementById("code-search");
 const nameSearch = document.getElementById("name-search");
 const profSearch = document.getElementById("prof-search");
-const submitBtn = document.getElementById("submitBtn");
+const submitBtn = document.getElementById("submit-btn");
 const selectedGrade = document.getElementById("grade");
 
 // Initialize the page elements
@@ -38,13 +39,38 @@ const initializePage = (allLectures) => {
     if (grade) {
         selectedGrade.value = grade;
     }
+
+    setupEventListenerForClearAllBtn();
+    setupEventListenerForSubmitBtn();
     populateDeptFilter(allLectures);
-    setupEventListeners(allLectures);
+    setupEventListenersForFilters(allLectures);
     filterLectures(allLectures);
 
-    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
     renderLectures(pickedLectures, pickedLecturesTable, true);
+    updateClearAllBtnState();
     updateSubmitBtnState();
+}
+
+// Set up event listener for clearAllBtn
+const setupEventListenerForClearAllBtn = () => {
+    clearAllBtn.addEventListener("click", () => {
+        // Clear pickedLectures from sessionStorage
+        sessionStorage.removeItem("pickedLectures");
+
+        // Clear pickedLectures table
+        pickedLecturesTable.innerHTML = "";
+
+        // Update the clear all button state (disable it if no picked lectures)
+        updateClearAllBtnState();
+        // Update the submit button state (disable it if no picked lectures)
+        updateSubmitBtnState();
+    });
+}
+
+const updateClearAllBtnState = () => {
+    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+
+    clearAllBtn.disabled = !(pickedLectures.length > 0);
 }
 
 // Populate department filter with unique values
@@ -54,12 +80,11 @@ const populateDeptFilter = (allLectures) => {
 }
 
 // Set up event listeners for filters
-const setupEventListeners = (allLectures) => {
+const setupEventListenersForFilters = (allLectures) => {
     const filters = [deptFilter, codeSearch, nameSearch, profSearch];
     filters.forEach(filter => {
         filter.addEventListener("input", () => filterLectures(allLectures));
     });
-    selectedGrade.addEventListener("change", updateSubmitBtnState);
 }
 
 // Filter lectures based on search criteria
@@ -121,6 +146,7 @@ const handlePickLecture = (lecture) => {
         pickedLectures.push(lecture);
         sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
         renderLectures(pickedLectures, pickedLecturesTable, true);
+        updateClearAllBtnState();
         updateSubmitBtnState();
     }
 }
@@ -136,7 +162,12 @@ const handleRemoveLecture = (lecture, rowFromPick) => {
 
     sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
     rowFromPick.remove();
+    updateClearAllBtnState();
     updateSubmitBtnState();
+}
+
+const setupEventListenerForSubmitBtn = () => {
+    selectedGrade.addEventListener("change", updateSubmitBtnState);
 }
 
 // Update the state of the submit button based on the number of picked lectures and grade

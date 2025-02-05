@@ -23,7 +23,7 @@ const calculateCompetitionRate = (lecture) => {
 const createLectureRow = (lecture, competitionRate) => {
     let status = "safe"; // Default to safe
 
-    if (competitionRate >= 3) {
+    if (competitionRate >= 2) {
         status = "danger"
     } else if (competitionRate > 1) {
         status = "warning"
@@ -36,16 +36,16 @@ const createLectureRow = (lecture, competitionRate) => {
     `;
 }
 
-// Find alternative lectures for a given lecture with the competition rate less than 3
+// Find alternative lectures for a given lecture with the competition rate less than 2
 const findAlternativeLectures = (lecture) => {
-    const competitionRateThreshold = 3;
+    const competitionRateThreshold = 2;
     return allLectures.filter(l => {
         const competitionRate = calculateCompetitionRate(l);
         return (
             l.name === lecture.name &&  // Same subject
             l.code !== lecture.code &&  // Different course code
             !pickedLectures.some(pl => pl.code === l.code) &&  // Not already picked
-            competitionRate < competitionRateThreshold         // Competition rate < 3
+            competitionRate < competitionRateThreshold         // Competition rate < 2
         );
     });
 }
@@ -65,7 +65,7 @@ const renderAlternativeLectures = () => {
 
     pickedLectures.forEach(lecture => {
         const competitionRate = calculateCompetitionRate(lecture);
-        if (competitionRate >= 3) {
+        if (competitionRate >= 2) {
             const alternatives = findAlternativeLectures(lecture);
             if (alternatives.length > 0) {
                 foundAlternatives = true;
@@ -91,7 +91,7 @@ const categorizeLectures = () => {
 
         if (competitionRate < 1) {
             safeLectures.push(lecture);  // Safe
-        } else if (competitionRate >= 1 && competitionRate < 3) {
+        } else if (competitionRate >= 1 && competitionRate < 2) {
             warningLectures.push(lecture);  // Warning
         } else {
             dangerLectures.push(lecture);  // Danger
