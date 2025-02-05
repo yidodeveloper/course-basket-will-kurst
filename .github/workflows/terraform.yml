@@ -100,4 +100,17 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
-      working-directory: app/infra  
+      working-directory: app/infra
+
+    # Notify that Github Action is finished through Slack
+    - name: Send a Slack message
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        author_name: Github Action Monitor
+        fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
+        if_mention: failure, cancelled
+        mention: '@Chori'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+      if: always() # Pick up events even if the job fails or is canceled.
