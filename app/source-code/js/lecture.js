@@ -41,8 +41,10 @@ const initializePage = (allLectures) => {
     populateDeptFilter(allLectures);
     setupEventListeners(allLectures);
     filterLectures(allLectures);
-    renderPickedLectures();  // Render picked lectures from sessionStorage
-    updateSubmitBtnState();  // Update the button state based on picked lectures and grade
+
+    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+    renderLectures(pickedLectures, pickedLecturesTable, true);
+    updateSubmitBtnState();
 }
 
 // Populate department filter with unique values
@@ -111,32 +113,30 @@ const createLectureRow = (lecture) => {
 
 // Handle picking a lecture
 const handlePickLecture = (lecture) => {
+    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+
     if (pickedLectures.some(pickedLecture => pickedLecture.code === lecture.code)) {
         alert("이 강의는 이미 담았습니다!");
     } else {
         pickedLectures.push(lecture);
-        // Save picked lectures to sessionStorage
         sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
-        renderLectures([lecture], pickedLecturesTable, true);  // Render the picked lecture
-        updateSubmitBtnState();  // Update button state after adding a lecture
+        renderLectures(pickedLectures, pickedLecturesTable, true);
+        updateSubmitBtnState();
     }
 }
 
 // Handle removing a picked lecture
 const handleRemoveLecture = (lecture, rowFromPick) => {
-    rowFromPick.remove();
+    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
     const index = pickedLectures.findIndex(pickedLecture => pickedLecture.code === lecture.code);
+
     if (index !== -1) {
         pickedLectures.splice(index, 1);
-        // Update picked lectures in sessionStorage
-        sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
-        updateSubmitBtnState();  // Update button state after removing a lecture
     }
-}
 
-// Render picked lectures from sessionStorage
-const renderPickedLectures = () => {
-    renderLectures(pickedLectures, pickedLecturesTable, true);
+    sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
+    rowFromPick.remove();
+    updateSubmitBtnState();
 }
 
 // Update the state of the submit button based on the number of picked lectures and grade
