@@ -5,8 +5,8 @@ import json
 
 root_dir = os.getcwd()
 
-excel_file = os.path.join(root_dir, 'util/24-2.xlsx')
-json_file = os.path.join(root_dir, 'app/data/24-2.json')
+excel_file = os.path.join(root_dir, 'util/24-1.xlsx')     # Required to change file name
+json_file = os.path.join(root_dir, 'app/data/24-1.json')  # Required to change file name
 
 wb = openpyxl.load_workbook(excel_file)
 sheet = wb.active
