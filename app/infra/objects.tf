@@ -47,6 +47,13 @@ resource "aws_s3_object" "cow_jpeg" {
   content_type = "media/jpeg"
 }
 
+resource "aws_s3_object" "data_24_1_json" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/data/24-1.json"
+  source       = "../data/24-1.json"
+  content_type = "Application/json"
+}
+
 resource "aws_s3_object" "data_24_2_json" {
   bucket       = aws_s3_bucket.main.id
   key          = "app/data/24-2.json"

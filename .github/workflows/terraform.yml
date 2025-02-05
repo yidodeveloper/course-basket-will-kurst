@@ -61,7 +61,8 @@ jobs:
               contains(steps.changed-files.outputs.modified_files, 'result.html') || 
               contains(steps.changed-files.outputs.modified_files, 'style.css') || 
               contains(steps.changed-files.outputs.modified_files, 'lecture.js') || 
-              contains(steps.changed-files.outputs.modified_files, 'calculator.js') || 
+              contains(steps.changed-files.outputs.modified_files, 'calculator.js') ||
+              contains(steps.changed-files.outputs.modified_files, '24-1.json') ||
               contains(steps.changed-files.outputs.modified_files, '24-2.json') }}
       run: |
         for file in ${{ steps.changed-files.outputs.modified_files }}; do
@@ -83,6 +84,9 @@ jobs:
               ;;
             "app/source-code/js/calculator.js")
               terraform taint aws_s3_object.calculator_js
+              ;;
+            "app/data/24-1.json")
+              terraform taint aws_s3_object.data_24_1_json
               ;;
             "app/data/24-2.json")
               terraform taint aws_s3_object.data_24_2_json
