@@ -141,6 +141,8 @@ const handleRemoveLecture = (lecture, rowFromPick) => {
 
 // Update the state of the submit button based on the number of picked lectures and grade
 const updateSubmitBtnState = () => {
+    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+
     grade = selectedGrade.value;
     sessionStorage.setItem("grade", grade);
 
