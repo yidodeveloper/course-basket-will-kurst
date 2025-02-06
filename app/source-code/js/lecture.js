@@ -1,25 +1,22 @@
 // URL of JSON file uploaded to S3
 const lecturesDataUrl = "https://course-basket-will-kurst.com.s3.ap-northeast-2.amazonaws.com/app/data/24-1.json";
 
-// List of every lecture
-let allLectures = JSON.parse(sessionStorage.getItem("allLectures")) || [];
-// List of lectures which user selected
-let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
-let grade = sessionStorage.getItem("grade") || "";
-
 // Elements
 const pickedLecturesTable = document.getElementById("picked-lectures").getElementsByTagName("tbody")[0];
 const allLecturesTable = document.getElementById("all-lectures").getElementsByTagName("tbody")[0];
+const gradeSelector = document.getElementById("grade");
 const clearAllBtn = document.getElementById("clear-all-btn");
+const submitBtn = document.getElementById("submit-btn");
+const tipMessage = document.getElementById("tip-message");
 const deptFilter = document.getElementById("dept-filter");
 const codeSearch = document.getElementById("code-search");
 const nameSearch = document.getElementById("name-search");
 const profSearch = document.getElementById("prof-search");
-const submitBtn = document.getElementById("submit-btn");
-const selectedGrade = document.getElementById("grade");
+const searchBtn = document.getElementById("search-btn");
 
 // Initialize the page elements
 const initializeData = () => {
+    let allLectures = JSON.parse(sessionStorage.getItem("allLectures")) || [];
     if (allLectures.length === 0) {
         fetch(lecturesDataUrl)
             .then(response => response.ok ? response.json() : Promise.reject("Failed to fetch data"))
@@ -36,55 +33,84 @@ const initializeData = () => {
 
 // Initialize page elements
 const initializePage = (allLectures) => {
+    let grade = sessionStorage.getItem("grade") || "";
     if (grade) {
-        selectedGrade.value = grade;
+        gradeSelector.value = grade;
     }
 
+    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+    populateDeptFilter(allLectures);
+    filterLectures(allLectures);
+    renderLectures(pickedLectures, pickedLecturesTable, true);
+    setupEventListenerForSelectingGrade();
     setupEventListenerForClearAllBtn();
     setupEventListenerForSubmitBtn();
-    populateDeptFilter(allLectures);
     setupEventListenersForFilters(allLectures);
-    filterLectures(allLectures);
-
-    renderLectures(pickedLectures, pickedLecturesTable, true);
-    updateClearAllBtnState();
-    updateSubmitBtnState();
 }
 
-// Set up event listener for clearAllBtn
-const setupEventListenerForClearAllBtn = () => {
-    clearAllBtn.addEventListener("click", () => {
-        // Clear pickedLectures from sessionStorage
-        sessionStorage.removeItem("pickedLectures");
-
-        // Clear pickedLectures table
-        pickedLecturesTable.innerHTML = "";
-
-        // Update the clear all button state (disable it if no picked lectures)
-        updateClearAllBtnState();
-        // Update the submit button state (disable it if no picked lectures)
-        updateSubmitBtnState();
-    });
-}
-
-const updateClearAllBtnState = () => {
+// Handle picking a lecture
+const handlePickLecture = (lecture) => {
     let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
 
-    clearAllBtn.disabled = !(pickedLectures.length > 0);
+    if (pickedLectures.some(pickedLecture => pickedLecture.code === lecture.code)) {
+        alert("이 강의는 이미 담았습니다!");
+    } else {
+        pickedLectures.push(lecture);
+        sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
+        renderLectures(pickedLectures, pickedLecturesTable, true);
+    }
 }
 
-// Populate department filter with unique values
+// Handle removing a picked lecture
+const handleRemoveLecture = (lecture, rowFromPick) => {
+    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+    const index = pickedLectures.findIndex(pickedLecture => pickedLecture.code === lecture.code);
+
+    if (index !== -1) {
+        pickedLectures.splice(index, 1);
+    }
+
+    sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
+    rowFromPick.remove();
+}
+
+// Create the HTML row for a lecture
+const createLectureRow = (lecture) => {
+    return `
+        <td><button class="pick-btn">담기</button></td>
+        <td>${lecture.dept}</td>
+        <td>${lecture.code}</td>
+        <td>${lecture.name}</td>
+        <td>${lecture.prof}</td>
+        <td>${lecture.time}</td>
+    `;
+}
+
+// Render lectures into the table (shared by all and picked lectures)
+const renderLectures = (lectures, targetTable, isPicked = false) => {
+    targetTable.innerHTML = ""; // Clear current rows
+    lectures.forEach(lecture => {
+        const row = targetTable.insertRow();
+        row.innerHTML = createLectureRow(lecture);
+
+        const btn = row.querySelector(".pick-btn");
+        if (isPicked) {
+            btn.innerText = "제거";
+            btn.addEventListener("click", () => handleRemoveLecture(lecture, row));
+        } else {
+            btn.addEventListener("click", (event) => {
+                handlePickLecture(lecture);
+                resetTipMessage(event);
+            });
+        }
+    });
+}
+
+// Populate department filter with unique values and an additional fixed option
 const populateDeptFilter = (allLectures) => {
     const uniqueDept = [...new Set(allLectures.map(lecture => lecture.dept))];
-    deptFilter.innerHTML = uniqueDept.map(dept => `<option value="${dept}">${dept}</option>`).join("");
-}
-
-// Set up event listeners for filters
-const setupEventListenersForFilters = (allLectures) => {
-    const filters = [deptFilter, codeSearch, nameSearch, profSearch];
-    filters.forEach(filter => {
-        filter.addEventListener("input", () => filterLectures(allLectures));
-    });
+    const fixedOption = `<option value="">이수구분 전체</option>`;
+    deptFilter.innerHTML = fixedOption + uniqueDept.map(dept => `<option value="${dept}">${dept}</option>`).join("");
 }
 
 // Filter lectures based on search criteria
@@ -107,78 +133,51 @@ const filterLectures = (allLectures) => {
     renderLectures(filteredLectures, allLecturesTable);
 }
 
-// Render lectures into the table (shared by all and picked lectures)
-const renderLectures = (lectures, targetTable, isPicked = false) => {
-    targetTable.innerHTML = ""; // Clear current rows
-    lectures.forEach(lecture => {
-        const row = targetTable.insertRow();
-        row.innerHTML = createLectureRow(lecture);
+const setupEventListenerForSelectingGrade = () => {
+    gradeSelector.addEventListener("change", resetTipMessage);
+}
 
-        const btn = row.querySelector(".pick-btn");
-        if (isPicked) {
-            btn.innerText = "제거";
-            btn.addEventListener("click", () => handleRemoveLecture(lecture, row));
+const setupEventListenerForClearAllBtn = () => {
+    clearAllBtn.addEventListener("click", () => {
+        // Clear pickedLectures from sessionStorage
+        sessionStorage.removeItem("pickedLectures");
+
+        // Clear pickedLectures table
+        pickedLecturesTable.innerHTML = "";
+    });
+}
+
+const setupEventListenerForSubmitBtn = () => {
+    submitBtn.addEventListener("click", () => {
+        let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+        let grade = gradeSelector.value;
+
+        // Check if both pickedLectures and grade are valid
+        if (!grade) {
+            tipMessage.innerText = "학년을 선택해주세요."; // Tip message
+            tipMessage.style.display = "block"; // Show the message
+        } else if (pickedLectures.length === 0) {
+            tipMessage.innerText = "강의를 하나 이상 담아주세요."; // Tip message
+            tipMessage.style.display = "block"; // Show the message
         } else {
-            btn.addEventListener("click", () => handlePickLecture(lecture));
+            // Navigate to result.html if the conditions are met
+            window.location.href = "./result.html";
         }
     });
 }
 
-// Create the HTML row for a lecture
-const createLectureRow = (lecture) => {
-    return `
-        <td><button class="pick-btn">담기</button></td>
-        <td>${lecture.dept}</td>
-        <td>${lecture.code}</td>
-        <td>${lecture.name}</td>
-        <td>${lecture.prof}</td>
-        <td>${lecture.time}</td>
-    `;
+const setupEventListenersForFilters = (allLectures) => {
+    searchBtn.addEventListener("click", () => filterLectures(allLectures))
 }
 
-// Handle picking a lecture
-const handlePickLecture = (lecture) => {
-    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
-
-    if (pickedLectures.some(pickedLecture => pickedLecture.code === lecture.code)) {
-        alert("이 강의는 이미 담았습니다!");
-    } else {
-        pickedLectures.push(lecture);
-        sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
-        renderLectures(pickedLectures, pickedLecturesTable, true);
-        updateClearAllBtnState();
-        updateSubmitBtnState();
+const resetTipMessage = (event) => {
+    if (event.target.id === "grade" && tipMessage.innerText === "학년을 선택해주세요.") {
+        tipMessage.style.display = "none"; // Hide the message
     }
-}
-
-// Handle removing a picked lecture
-const handleRemoveLecture = (lecture, rowFromPick) => {
-    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
-    const index = pickedLectures.findIndex(pickedLecture => pickedLecture.code === lecture.code);
-
-    if (index !== -1) {
-        pickedLectures.splice(index, 1);
+    if (event.target.className === "pick-btn" && tipMessage.innerText === "강의를 하나 이상 담아주세요.") {
+        tipMessage.style.display = "none"; // Hide the message
     }
-
-    sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
-    rowFromPick.remove();
-    updateClearAllBtnState();
-    updateSubmitBtnState();
-}
-
-const setupEventListenerForSubmitBtn = () => {
-    selectedGrade.addEventListener("change", updateSubmitBtnState);
-}
-
-// Update the state of the submit button based on the number of picked lectures and grade
-const updateSubmitBtnState = () => {
-    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
-
-    grade = selectedGrade.value;
-    sessionStorage.setItem("grade", grade);
-
-    submitBtn.disabled = !(pickedLectures.length > 0 && grade);
-}
+};
 
 // Initialize data and page elements
 initializeData();

@@ -59,7 +59,9 @@ jobs:
         ${{ contains(steps.changed-files.outputs.modified_files, 'index.html') || 
               contains(steps.changed-files.outputs.modified_files, 'home.html') || 
               contains(steps.changed-files.outputs.modified_files, 'result.html') || 
-              contains(steps.changed-files.outputs.modified_files, 'style.css') || 
+              contains(steps.changed-files.outputs.modified_files, 'index.css') || 
+              contains(steps.changed-files.outputs.modified_files, 'home.css') || 
+              contains(steps.changed-files.outputs.modified_files, 'result.css') || 
               contains(steps.changed-files.outputs.modified_files, 'lecture.js') || 
               contains(steps.changed-files.outputs.modified_files, 'calculator.js') ||
               contains(steps.changed-files.outputs.modified_files, '24-1.json') ||
@@ -76,8 +78,14 @@ jobs:
             "app/source-code/html/result.html")
               terraform taint aws_s3_object.result_html
               ;;
-            "app/source-code/css/style.css")
-              terraform taint aws_s3_object.style_css
+            "app/source-code/css/index.css")
+              terraform taint aws_s3_object.index_css
+              ;;
+            "app/source-code/css/home.css")
+              terraform taint aws_s3_object.home_css
+              ;;
+            "app/source-code/css/result.css")
+              terraform taint aws_s3_object.result_css
               ;;
             "app/source-code/js/lecture.js")
               terraform taint aws_s3_object.lecture_js
