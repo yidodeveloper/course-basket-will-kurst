@@ -19,10 +19,24 @@ resource "aws_s3_object" "result_html" {
   content_type = "text/html"
 }
 
-resource "aws_s3_object" "style_css" {
+resource "aws_s3_object" "index_css" {
   bucket       = aws_s3_bucket.main.id
-  key          = "app/source-code/css/style.css"
-  source       = "../source-code/css/style.css"
+  key          = "app/source-code/css/index.css"
+  source       = "../source-code/css/index.css"
+  content_type = "text/css"
+}
+
+resource "aws_s3_object" "home_css" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/source-code/css/home.css"
+  source       = "../source-code/css/home.css"
+  content_type = "text/css"
+}
+
+resource "aws_s3_object" "result_css" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/source-code/css/result.css"
+  source       = "../source-code/css/result.css"
   content_type = "text/css"
 }
 

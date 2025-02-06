@@ -1,0 +1,10 @@
+#main-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+.btn {
+    margin-top: 16px;
+}
