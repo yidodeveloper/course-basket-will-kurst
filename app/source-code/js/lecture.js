@@ -1,5 +1,5 @@
 // URL of JSON file uploaded to S3
-const lecturesDataUrl = "https://d12fyofa81ana4.cloudfront.net/app/source-code/html
+const lecturesDataUrl = "https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/data/24-1.json";
 
 // Elements
 const pickedLecturesTable = document.getElementById("picked-lectures").getElementsByTagName("tbody")[0];
@@ -177,7 +177,7 @@ const setupEventListenerForSubmitBtn = () => {
             tipMessage.style.display = "block"; // Show the message
         } else {
             // Navigate to result.html if the conditions are met
-            window.location.href = "https://d12fyofa81ana4.cloudfront.net/app/source-code/html/result.html";
+            window.location.href = "https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/source-code/html/result.html";
         }
     });
 }
