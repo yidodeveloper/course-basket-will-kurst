@@ -34,3 +34,7 @@ h3 {
     display: none;
     color: red;
 }
+
+#copyright {
+    margin-top: 96px;
+}
