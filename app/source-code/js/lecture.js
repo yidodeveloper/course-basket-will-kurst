@@ -177,7 +177,7 @@ const setupEventListenerForSubmitBtn = () => {
             tipMessage.style.display = "block"; // Show the message
         } else {
             // Navigate to result.html if the conditions are met
-            window.location.href = "https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/source-code/html/result.html";
+            window.location.href = "./result.html";
         }
     });
 }
