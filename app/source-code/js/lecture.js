@@ -77,7 +77,7 @@ const handleRemoveLecture = (lecture, rowFromPick) => {
 // Create the HTML row for a lecture
 const createLectureRow = (lecture) => {
     return `
-        <td><button class="pick-btn">담기</button></td>
+        <td><button class="btn btn-light" id="pick-btn">담기</button></td>
         <td>${lecture.dept}</td>
         <td>${lecture.code}</td>
         <td>${lecture.name}</td>
@@ -93,7 +93,7 @@ const renderLectures = (lectures, targetTable, isPicked = false) => {
         const row = targetTable.insertRow();
         row.innerHTML = createLectureRow(lecture);
 
-        const btn = row.querySelector(".pick-btn");
+        const btn = row.querySelector("#pick-btn");
         if (isPicked) {
             btn.innerText = "제거";
             btn.addEventListener("click", () => handleRemoveLecture(lecture, row));
@@ -134,6 +134,9 @@ const filterLectures = (allLectures) => {
 }
 
 const setupEventListenerForSelectingGrade = () => {
+    gradeSelector.addEventListener("change", (event) => {
+        sessionStorage.setItem("grade", event.target.value);
+    });
     gradeSelector.addEventListener("change", resetTipMessage);
 }
 
@@ -174,7 +177,7 @@ const resetTipMessage = (event) => {
     if (event.target.id === "grade" && tipMessage.innerText === "학년을 선택해주세요.") {
         tipMessage.style.display = "none"; // Hide the message
     }
-    if (event.target.className === "pick-btn" && tipMessage.innerText === "강의를 하나 이상 담아주세요.") {
+    if (event.target.id === "pick-btn" && tipMessage.innerText === "강의를 하나 이상 담아주세요.") {
         tipMessage.style.display = "none"; // Hide the message
     }
 };
