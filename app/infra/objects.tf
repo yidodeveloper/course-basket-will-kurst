@@ -54,11 +54,46 @@ resource "aws_s3_object" "calculator_js" {
   content_type = "text/javascript"
 }
 
-resource "aws_s3_object" "cow_jpeg" {
+resource "aws_s3_object" "header_png" {
   bucket       = aws_s3_bucket.main.id
-  key          = "app/media/cow.jpeg"
-  source       = "../media/cow.jpeg"
-  content_type = "media/jpeg"
+  key          = "app/media/header.png"
+  source       = "../media/header.png"
+  content_type = "media/png"
+}
+
+resource "aws_s3_object" "recommend_png" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/media/recommend.png"
+  source       = "../media/recommend.png"
+  content_type = "media/png"
+}
+
+resource "aws_s3_object" "retry_button_png" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/media/retry-button.png"
+  source       = "../media/retry-button.png"
+  content_type = "media/png"
+}
+
+resource "aws_s3_object" "start_button_png" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/media/start-button.png"
+  source       = "../media/start-button.png"
+  content_type = "media/png"
+}
+
+resource "aws_s3_object" "submit_button_png" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/media/submitt-button.png"
+  source       = "../media/submit-button.png"
+  content_type = "media/png"
+}
+
+resource "aws_s3_object" "thumbnail_png" {
+  bucket       = aws_s3_bucket.main.id
+  key          = "app/media/thumbnail.png"
+  source       = "../media/thumbnail.png"
+  content_type = "media/png"
 }
 
 resource "aws_s3_object" "data_24_1_json" {

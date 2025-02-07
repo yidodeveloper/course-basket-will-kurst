@@ -4,6 +4,9 @@ let allLectures = JSON.parse(sessionStorage.getItem("allLectures")) || [];
 let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
 const grade = JSON.parse(sessionStorage.getItem("grade")) || "1";
 
+const countOfAllLectures = document.getElementById("count-of-all-lectures");
+const countOfNonSafeLectures = document.getElementById("count-of-non-safe-lectures");
+
 // Elements
 const tables = {
     safe: document.getElementById("safe-lectures").getElementsByTagName("tbody")[0],
@@ -30,9 +33,9 @@ const createLectureRow = (lecture, competitionRate) => {
     }
 
     return `
-        <td>${lecture.name}</td>
-        <td>${lecture.time}</td>
-        <td class="${status}">${competitionRate}</td>
+        <td align=center valign=middle>${lecture.name}</td>
+        <td align=center valign=middle>${lecture.time}</td>
+        <td align=center valign=middle class="${status}">${competitionRate}</td>
     `;
 }
 
@@ -76,7 +79,7 @@ const renderAlternativeLectures = () => {
 
     // If no alternatives found, display a message
     if (!foundAlternatives) {
-        tables.alternative.insertRow().innerHTML = `<td colspan="3">대체할 강의가 없습니다...</td>`;
+        tables.alternative.insertRow().innerHTML = `<td align=center valign=middle colspan="3" align="center">경쟁률 1 미만인 동일 교과목이 없어요 😱</td>`;
     }
 }
 
@@ -112,6 +115,9 @@ const renderLectures = () => {
     renderLecturesForTable(safeLectures, tables.safe);
     renderLecturesForTable(warningLectures, tables.warning);
     renderLecturesForTable(dangerLectures, tables.danger);
+
+    countOfAllLectures.innerText = safeLectures.length + warningLectures.length + dangerLectures.length;
+    countOfNonSafeLectures.innerText = warningLectures.length + dangerLectures.length;
 
     // Now render the alternative lectures for the dangerous ones
     renderAlternativeLectures();

@@ -5,7 +5,7 @@ body {
 
 #main-box {
     height: 100%;
-    width: 320px;
+    width: 360px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,8 +15,4 @@ body {
 
 #start-btn {
     width: 100%;
-}
-
-#copyright {
-    margin-top: 96px;
 }
