@@ -84,7 +84,7 @@ resource "aws_s3_object" "start_button_png" {
 
 resource "aws_s3_object" "submit_button_png" {
   bucket       = aws_s3_bucket.main.id
-  key          = "app/media/submitt-button.png"
+  key          = "app/media/submit-button.png"
   source       = "../media/submit-button.png"
   content_type = "media/png"
 }
