@@ -43,6 +43,7 @@ const initializePage = (allLectures) => {
     populateDeptFilter(allLectures);
     filterLectures(allLectures);
     renderLectures(pickedLectures, pickedLecturesTable, true);
+    updatePickedLectureCount();
     setupEventListenerForSelectingGrade();
     setupEventListenerForClearAllBtn();
     setupEventListenerForSubmitBtn();
