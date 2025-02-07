@@ -52,6 +52,13 @@ const initializePage = (allLectures) => {
 const handlePickLecture = (lecture) => {
     let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
 
+    // Check if the number of picked lectures exceeds the limit
+    if (pickedLectures.length >= 15) {
+        tipMessage.innerText = "최대 15개까지 담을 수 있습니다."; // Display the message if more than 15
+        tipMessage.style.display = "block"; // Show the message
+        return;
+    }
+
     if (pickedLectures.some(pickedLecture => pickedLecture.code === lecture.code)) {
         alert("이 강의는 이미 담았습니다!");
     } else {
@@ -72,6 +79,9 @@ const handleRemoveLecture = (lecture, rowFromPick) => {
 
     sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
     rowFromPick.remove();
+
+    // Hide the tip message when a lecture is removed
+    tipMessage.style.display = "none";
 }
 
 // Create the HTML row for a lecture
@@ -147,6 +157,9 @@ const setupEventListenerForClearAllBtn = () => {
 
         // Clear pickedLectures table
         pickedLecturesTable.innerHTML = "";
+
+        // Hide the tip message
+        tipMessage.style.display = "none";
     });
 }
 
