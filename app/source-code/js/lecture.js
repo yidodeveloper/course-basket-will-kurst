@@ -1,5 +1,5 @@
 // URL of JSON file uploaded to S3
-const lecturesDataUrl = "https://d125bssawne6g3.cloudfront.net/app/data/24-1.json";
+const lecturesDataUrl = "https://d12fyofa81ana4.cloudfront.net/app/source-code/html
 
 // Elements
 const pickedLecturesTable = document.getElementById("picked-lectures").getElementsByTagName("tbody")[0];
@@ -177,7 +177,7 @@ const setupEventListenerForSubmitBtn = () => {
             tipMessage.style.display = "block"; // Show the message
         } else {
             // Navigate to result.html if the conditions are met
-            window.location.href = "https://d125bssawne6g3.cloudfront.net/app/source-code/html/result.html";
+            window.location.href = "https://d12fyofa81ana4.cloudfront.net/app/source-code/html/result.html";
         }
     });
 }
