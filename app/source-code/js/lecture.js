@@ -4,6 +4,7 @@ const lecturesDataUrl = "https://course-basket-will-kurst.s3.ap-northeast-2.amaz
 // Elements
 const pickedLecturesTable = document.getElementById("picked-lectures").getElementsByTagName("tbody")[0];
 const allLecturesTable = document.getElementById("all-lectures").getElementsByTagName("tbody")[0];
+const countOfPickedLectures = document.getElementById("count-of-picked-lectures");
 const gradeSelector = document.getElementById("grade");
 const clearAllBtn = document.getElementById("clear-all-btn");
 const submitBtn = document.getElementById("submit-btn");
@@ -48,6 +49,11 @@ const initializePage = (allLectures) => {
     setupEventListenersForFilters(allLectures);
 }
 
+const updatePickedLectureCount = () => {
+    let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
+    countOfPickedLectures.innerText = pickedLectures.length;
+}
+
 // Handle picking a lecture
 const handlePickLecture = (lecture) => {
     let pickedLectures = JSON.parse(sessionStorage.getItem("pickedLectures")) || [];
@@ -65,6 +71,7 @@ const handlePickLecture = (lecture) => {
         pickedLectures.push(lecture);
         sessionStorage.setItem("pickedLectures", JSON.stringify(pickedLectures));
         renderLectures(pickedLectures, pickedLecturesTable, true);
+        updatePickedLectureCount();
     }
 }
 
@@ -82,6 +89,8 @@ const handleRemoveLecture = (lecture, rowFromPick) => {
 
     // Hide the tip message when a lecture is removed
     tipMessage.style.display = "none";
+
+    updatePickedLectureCount();
 }
 
 // Create the HTML row for a lecture
@@ -157,6 +166,7 @@ const setupEventListenerForClearAllBtn = () => {
 
         // Clear pickedLectures table
         pickedLecturesTable.innerHTML = "";
+        updatePickedLectureCount();
 
         // Hide the tip message
         tipMessage.style.display = "none";
