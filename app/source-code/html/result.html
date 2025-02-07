@@ -16,63 +16,70 @@
     <div class="container" id="main-box">
         <h1>수구니 결국 터질 KU야</h1>
         <h3>안심하세요!</h3>
-        <table class="table" id="safe-lectures">
-            <thead>
-                <tr>
-                    <th scope="col">과목명</th>
-                    <th scope="col">강의요시</th>
-                    <th scope="col">전년도 경쟁률</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- The list of lectures will be added dynamically -->
-            </tbody>
-        </table>
+        <div style="width:100%;height:240px; overflow:auto;">
+            <table class="table" id="safe-lectures" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col">과목명</th>
+                        <th scope="col">강의요시</th>
+                        <th scope="col">전년도 경쟁률</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- The list of lectures will be added dynamically -->
+                </tbody>
+            </table>
+        </div>
 
         <h3>위험할 수 있어요</h3>
-        <table class="table" id="warning-lectures">
-            <thead>
-                <tr>
-                    <th scope="col">과목명</th>
-                    <th scope="col">강의요시</th>
-                    <th scope="col">전년도 경쟁률</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- The list of lectures will be added dynamically -->
-            </tbody>
-        </table>
+        <div style="width:100%;height:240px; overflow:auto;">
+            <table class="table" id="warning-lectures" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col">과목명</th>
+                        <th scope="col">강의요시</th>
+                        <th scope="col">전년도 경쟁률</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- The list of lectures will be added dynamically -->
+                </tbody>
+            </table>
+        </div>
 
         <h3>힘내요... 터졌어요</h3>
-        <table class="table" id="danger-lectures">
-            <thead>
-                <tr>
-                    <th scope="col">과목명</th>
-                    <th scope="col">강의요시</th>
-                    <th scope="col">전년도 경쟁률</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- The list of lectures will be added dynamically -->
-            </tbody>
-        </table>
+        <div style="width:100%;height:240px; overflow:auto;">
+            <table class="table" id="danger-lectures" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col">과목명</th>
+                        <th scope="col">강의요시</th>
+                        <th scope="col">전년도 경쟁률</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- The list of lectures will be added dynamically -->
+                </tbody>
+            </table>
+        </div>
 
         <p>괜찮아요! 상대적으로 경쟁률이 낮은 다른 시간대의 강의를 추천할게요</p>
-        <table id="alternative-lectures">
-            <thead>
-                <tr>
-                    <th scope="col">과목명</th>
-                    <th scope="col">강의요시</th>
-                    <th scope="col">전년도 경쟁률</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- The list of lectures will be added dynamically -->
-            </tbody>
-        </table>
+        <div style="width:100%;height:240px; overflow:auto;">
+            <table id="alternative-lectures" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col">과목명</th>
+                        <th scope="col">강의요시</th>
+                        <th scope="col">전년도 경쟁률</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- The list of lectures will be added dynamically -->
+                </tbody>
+            </table>
+        </div>
 
-        <button id="retry-btn" type="button"
-            onclick="location.href='https://course-basket-will-kurst.com.s3.ap-northeast-2.amazonaws.com/app/source-code/html/home.html'">
+        <button class="btn btn-light" id="retry-btn" type="button" onclick="location.href='./home.html'">
             다른 과목도 확인하기
         </button>
     </div>
