@@ -177,7 +177,7 @@ const setupEventListenerForSubmitBtn = () => {
             tipMessage.style.display = "block"; // Show the message
         } else {
             // Navigate to result.html if the conditions are met
-            window.location.href = "https://d125bssawne6g3.cloudfront.net/app/srouce-code/html/result.html";
+            window.location.href = "https://d125bssawne6g3.cloudfront.net/app/source-code/html/result.html";
         }
     });
 }
