@@ -3,19 +3,14 @@ body {
     height: 100%;
 }
 
-.container {
+#main-box {
     height: 100%;
     width: 320px;
-    display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    gap: 16px;
-}
-
-#main-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 8px;
 }
 
 #start-btn {
