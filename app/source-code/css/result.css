@@ -4,16 +4,51 @@ body {
     height: 100%;
 }
 
-h3 {
+h5 {
     margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+th {
+    text-align: center;
 }
 
 #main-box {
+    width: 360px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-#copyright {
-    margin-top: 96px;
+#safe-title {
+    color: #2C826E;
+}
+
+#warning-title {
+    color: #EF9A40;
+}
+
+#danger-title {
+    color: #B32323;
+}
+
+#recommand {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+#retry-btn {
+    margin-top: 8px;
+}
+
+#alert {
+    color: #3D4140;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+}
+
+#count-of-all-lectures,
+#count-of-non-safe-lectures {
+    color: #B32323;
 }

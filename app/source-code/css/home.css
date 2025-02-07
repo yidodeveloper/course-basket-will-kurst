@@ -4,24 +4,34 @@ body {
     height: 100%;
 }
 
-h3 {
+h5 {
     margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+
+th {
+    text-align: center;
 }
 
 #main-box {
+    width: 360px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.filters {
-    margin-top: 8px;
-    margin-bottom: 8px;
+#pick-box {
+    display: flex;
+    justify-content: space-between;
 }
 
-#submit-btn,
+#submit-btn {
+    margin-top: 12px;
+}
+
 #clear-all-btn {
-    margin: 8px
+    font-size: 12px;
 }
 
 #tip-box {
@@ -32,9 +42,13 @@ h3 {
 
 #tip-message {
     display: none;
-    color: red;
+    color: #BB3535;
 }
 
-#copyright {
-    margin-top: 96px;
+#picked-title {
+    color: #BB3535;
+}
+
+#all-title {
+    color: #1D6E5A;
 }

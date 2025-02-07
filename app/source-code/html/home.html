@@ -9,12 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
         href="https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/source-code/css/home.css">
-    <title>수구니 결국 터질 Ku야</title>
+    <title>수KU니는 결국 터질KU야</title>
 </head>
 
 <body>
     <div class="container" id="main-box">
-        <h1>수구니 결국 터질 KU야</h1>
+        <img src="https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/media/header.png"
+            class="img-fluid" alt="header">
 
         <select class="form-select" id="grade">
             <option value="">학년을 선택하세요</option>
@@ -24,18 +25,23 @@
             <option value="4">4학년 이상</option>
         </select>
 
-        <h3>담은 강의 리스트 (<span id="count-of-picked-lectures">0</span>/15)
-        </h3>
+        <div id="pick-box">
+            <h5 id="picked-title">📌 담은 강의 리스트 (<span id="count-of-picked-lectures">0</span>/15)
+            </h5>
+            <button class="btn btn-link" type="button" id="clear-all-btn">
+                전체 삭제
+            </button>
+        </div>
         <div style="width:100%;height:240px; overflow:auto;">
             <table class="table table-striped" id="picked-lectures" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th scope="col">제거</th>
-                        <th scope="col">이수구분</th>
-                        <th scope="col">과목번호</th>
-                        <th scope="col">과목명</th>
-                        <th scope="col">교강사명</th>
-                        <th scope="col">강의요시</th>
+                        <th valign="middle" scope="col">제거</th>
+                        <th valign="middle" scope="col">이수구분</th>
+                        <th valign="middle" scope="col">과목번호</th>
+                        <th valign="middle" scope="col">과목명</th>
+                        <th valign="middle" scope="col">교강사명</th>
+                        <th valign="middle" scope="col">강의요시</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,19 +51,13 @@
             </table>
         </div>
 
-        <div class="row" id="btn-box">
-            <button class="col btn btn-light" type="button" id="submit-btn">
-                수구니 운명 확인하기
-            </button>
-            <button class="col btn btn-light" type="button" id="clear-all-btn">
-                모든 강의 지우기
-            </button>
-        </div>
+        <img class="col" id="submit-btn"
+            src="https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/media/submit-button.png">
         <div id="tip-box">
             <div id="tip-message"></div>
         </div>
 
-        <h3>전체 강의 리스트</h3>
+        <h5 id="all-title">📌 전체 강의 리스트</h5>
         <div class="row" id="filters">
             <select class="form-select col" id="dept-filter">
                 <!-- The options of dept will be added dynamically -->
@@ -65,19 +65,19 @@
             <input class="col" type="text" id="code-search" placeholder="과목번호">
             <input class="col" type="text" id="name-search" placeholder="과목명">
             <input class="col" type="text" id="prof-search" placeholder="교강사명">
-            <button class="col btn btn-light" type="button" id="search-btn">검색</button>
+            <button class="col btn btn-success" type="button" id="search-btn">검색</button>
         </div>
 
         <div style="width:100%;height:360px; overflow:auto;">
             <table class="table table-striped" id="all-lectures" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th scope="col">담기</th>
-                        <th scope="col">이수구분</th>
-                        <th scope="col">과목번호</th>
-                        <th scope="col">과목명</th>
-                        <th scope="col">교강사명</th>
-                        <th scope="col">강의요시</th>
+                        <th valign="middle" scope="col">담기</th>
+                        <th valign="middle" scope="col">이수구분</th>
+                        <th valign="middle" scope="col">과목번호</th>
+                        <th valign="middle" scope="col">과목명</th>
+                        <th valign="middle" scope="col">교강사명</th>
+                        <th valign="middle" scope="col">강의요시</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,24 +85,13 @@
                 </tbody>
             </table>
         </div>
-
-        <footer>
-            <div id="copyright">
-                기획: 교육공학과 김도연
-                <br>
-                개발: 교육공학과 이희철
-                <br>
-                버그 및 사용성 개선 제보: yidodeveloper@gmail.com
-            </div>
-        </footer>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-    <script
-        src="https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/source-code/js/lecture.js"></script>
+    <script src="https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/js/lecture.js"></script>
 </body>
 
 </html>
