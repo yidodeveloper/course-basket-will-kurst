@@ -61,13 +61,6 @@ resource "aws_s3_object" "header_png" {
   content_type = "media/png"
 }
 
-resource "aws_s3_object" "recommend_png" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "app/media/recommend.png"
-  source       = "../media/recommend.png"
-  content_type = "media/png"
-}
-
 resource "aws_s3_object" "retry_button_png" {
   bucket       = aws_s3_bucket.main.id
   key          = "app/media/retry-button.png"
