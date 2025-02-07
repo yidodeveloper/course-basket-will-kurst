@@ -13,3 +13,7 @@ h3 {
     flex-direction: column;
     justify-content: center;
 }
+
+#copyright {
+    margin-top: 96px;
+}
