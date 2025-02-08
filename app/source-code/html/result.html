@@ -89,6 +89,15 @@
         </div>
 
         <button class="btn btn-danger" id="retry-btn" onclick="location.href='./home.html'">다른 과목도 확인하기</button>
+
+        <footer class="mt-auto" style="width: 100%; background-color: whitesmoke; font-size: 0.8rem;">
+            <div class="container">
+                <span class="text-muted">&copy; 교육공학과 KDY, YHC <span id="current-year"></span></span>
+            </div>
+            <div class="container"">
+                <span class=" text-muted">오류 제보: yidodeveloper@gmail.com</span>
+            </div>
+        </footer>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
@@ -97,6 +106,9 @@
         crossorigin="anonymous"></script>
     <script
         src="https://course-basket-will-kurst.s3.ap-northeast-2.amazonaws.com/app/source-code/js/calculator.js"></script>
+    <script>
+        document.getElementById("current-year").textContent = new Date().getFullYear();
+    </script>
 </body>
 
 </html>
