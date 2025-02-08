@@ -19,7 +19,7 @@ const tables = {
 const calculateCompetitionRate = (lecture) => {
     const numberOfPeopleAllowed = Number(lecture[`allowed_${grade}`]);
     const numberOfApplicants = Number(lecture[`actual_${grade}`]);
-    return numberOfPeopleAllowed ? (numberOfApplicants / numberOfPeopleAllowed).toFixed(2) : 0;
+    return numberOfPeopleAllowed ? (numberOfApplicants / numberOfPeopleAllowed).toFixed(2) : Number(0).toFixed(2);
 }
 
 // Create the HTML row for a lecture with the competition rate
