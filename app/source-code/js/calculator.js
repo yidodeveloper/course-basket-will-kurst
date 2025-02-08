@@ -26,16 +26,17 @@ const calculateCompetitionRate = (lecture) => {
 const createLectureRow = (lecture, competitionRate) => {
     let status = "safe"; // Default to safe
 
-    if (competitionRate >= 2) {
+    if (competitionRate > 2) {
         status = "danger"
     } else if (competitionRate > 1) {
         status = "warning"
     }
 
     return `
-        <td align=center valign=middle>${lecture.name}</td>
-        <td align=center valign=middle>${lecture.time}</td>
-        <td align=center valign=middle class="${status}">${competitionRate}</td>
+        <td align=center style="font-size: 0.9rem;" valign=middle>${lecture.code}</td>    
+        <td align=center style="font-size: 0.9rem;" valign=middle>${lecture.name}</td>
+        <td align=center style="font-size: 0.9rem;" valign=middle>${lecture.time}</td>
+        <td align=center style="font-size: 0.9rem; white-space: nowrap;" valign=middle class="${status}">${competitionRate}</td>
     `;
 }
 
@@ -79,7 +80,7 @@ const renderAlternativeLectures = () => {
 
     // If no alternatives found, display a message
     if (!foundAlternatives) {
-        tables.alternative.insertRow().innerHTML = `<td align=center valign=middle colspan="3" align="center">경쟁률 1 미만인 동일 교과목이 없어요 😱</td>`;
+        tables.alternative.insertRow().innerHTML = `<td align=center style="font-size: 0.9rem; white-space: nowrap;" valign=middle colspan="4" align="center">경쟁률 1 미만인 동일 교과목이 없어요 😱</td>`;
     }
 }
 
