@@ -40,16 +40,16 @@ const createLectureRow = (lecture, competitionRate) => {
     `;
 }
 
-// Find alternative lectures for a given lecture with the competition rate less than 2
+// Find alternative lectures for a given lecture with the competition rate less than or equal to 1
 const findAlternativeLectures = (lecture) => {
-    const competitionRateThreshold = 2;
+    const competitionRateThreshold = 1;
     return allLectures.filter(l => {
         const competitionRate = calculateCompetitionRate(l);
         return (
             l.name === lecture.name &&  // Same subject
             l.code !== lecture.code &&  // Different course code
             !pickedLectures.some(pl => pl.code === l.code) &&  // Not already picked
-            competitionRate < competitionRateThreshold         // Competition rate < 2
+            competitionRate <= competitionRateThreshold         // Competition rate <= 1
         );
     });
 }
@@ -69,7 +69,7 @@ const renderAlternativeLectures = () => {
 
     pickedLectures.forEach(lecture => {
         const competitionRate = calculateCompetitionRate(lecture);
-        if (competitionRate >= 2) {
+        if (competitionRate > 2) {
             const alternatives = findAlternativeLectures(lecture);
             if (alternatives.length > 0) {
                 foundAlternatives = true;
@@ -80,7 +80,7 @@ const renderAlternativeLectures = () => {
 
     // If no alternatives found, display a message
     if (!foundAlternatives) {
-        tables.alternative.insertRow().innerHTML = `<td align=center style="font-size: 0.9rem; white-space: nowrap;" valign=middle colspan="4" align="center">경쟁률 1 미만인 동일 교과목이 없어요 😱</td>`;
+        tables.alternative.insertRow().innerHTML = `<td align=center style="font-size: 0.9rem; white-space: nowrap;" valign=middle colspan="4" align="center">경쟁률 1 이하인 동일 교과목이 없어요 😱</td>`;
     }
 }
 
@@ -93,9 +93,9 @@ const categorizeLectures = () => {
     pickedLectures.forEach(lecture => {
         const competitionRate = calculateCompetitionRate(lecture);
 
-        if (competitionRate < 1) {
+        if (competitionRate <= 1) {
             safeLectures.push(lecture);  // Safe
-        } else if (competitionRate >= 1 && competitionRate < 2) {
+        } else if (competitionRate > 1 && competitionRate <= 2) {
             warningLectures.push(lecture);  // Warning
         } else {
             dangerLectures.push(lecture);  // Danger
