@@ -54,34 +54,6 @@ resource "aws_s3_object" "calculator_js" {
   content_type = "text/javascript"
 }
 
-resource "aws_s3_object" "header_png" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "app/media/header.png"
-  source       = "../media/header.png"
-  content_type = "media/png"
-}
-
-resource "aws_s3_object" "retry_button_png" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "app/media/retry-button.png"
-  source       = "../media/retry-button.png"
-  content_type = "media/png"
-}
-
-resource "aws_s3_object" "start_button_png" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "app/media/start-button.png"
-  source       = "../media/start-button.png"
-  content_type = "media/png"
-}
-
-resource "aws_s3_object" "submit_button_png" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "app/media/submit-button.png"
-  source       = "../media/submit-button.png"
-  content_type = "media/png"
-}
-
 resource "aws_s3_object" "thumbnail_png" {
   bucket       = aws_s3_bucket.main.id
   key          = "app/media/thumbnail.png"

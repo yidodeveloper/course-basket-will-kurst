@@ -97,12 +97,11 @@ const handleRemoveLecture = (lecture, rowFromPick) => {
 // Create the HTML row for a lecture
 const createLectureRow = (lecture) => {
     return `
-        <td align=center valign=middle><button class="btn btn-light" id="pick-btn">담기</button></td>
-        <td align=center valign=middle>${lecture.dept}</td>
-        <td align=center valign=middle>${lecture.code}</td>
-        <td align=center valign=middle>${lecture.name}</td>
-        <td align=center valign=middle>${lecture.prof}</td>
-        <td align=center valign=middle>${lecture.time}</td>
+        <td align=center valign=middle style="font-size: 0.9rem; white-space: nowrap;"><button class="btn btn-light" id="pick-btn" style="font-size: 0.9rem; white-space: nowrap;">담기</button></td>
+        <td align=center valign=middle style="font-size: 0.9rem; white-space: nowrap;">${lecture.code}</td>
+        <td align=center valign=middle style="font-size: 0.9rem;">${lecture.name}</td>
+        <td align=center valign=middle style="font-size: 0.9rem;">${lecture.prof}</td>
+        <td align=center valign=middle style="font-size: 0.9rem;">${lecture.time}</td>
     `;
 }
 
@@ -129,7 +128,7 @@ const renderLectures = (lectures, targetTable, isPicked = false) => {
 // Populate department filter with unique values and an additional fixed option
 const populateDeptFilter = (allLectures) => {
     const uniqueDept = [...new Set(allLectures.map(lecture => lecture.dept))];
-    const fixedOption = `<option value="">이수구분 전체</option>`;
+    const fixedOption = `<option value="">전체</option>`;
     deptFilter.innerHTML = fixedOption + uniqueDept.map(dept => `<option value="${dept}">${dept}</option>`).join("");
 }
 
